@@ -1,4 +1,4 @@
-//Require standard library
+// Require standard library
 #import <Metal/Metal.h>
 #import <MetalKit/MetalKit.h>
 #import <Foundation/Foundation.h>
@@ -21,26 +21,23 @@
 #include <cinttypes>
 #include <cerrno>
 #include <cctype>
-//Imgui library
+
+// Imgui library
 #import "Esp/CaptainHook.h"
 #import "Esp/ImGuiDrawView.h"
 #import "IMGUI/imgui.h"
 #import "IMGUI/imgui_internal.h"
 #import "IMGUI/imgui_impl_metal.h"
 #import "IMGUI/zzz.h"
-//#import "Hosts/NSObject+URL.h"
+
 #include "oxorany/oxorany_include.h"
 #import "Helper/Mem.h"
-#include "font.h"
 #import "Helper/Vector3.h"
 #import "Helper/Vector2.h"
 #import "Helper/Quaternion.h"
 #import "Helper/Monostring.h"
 #include "Helper/font.h"
 #include "Helper/data.h"
-ImFont* verdana_smol;
-ImFont* pixel_big = {};
-ImFont* pixel_smol = {};
 #include "Helper/Obfuscate.h"
 #import "Helper/Hooks.h"
 #include <OpenGLES/ES2/gl.h>
@@ -50,6 +47,10 @@ ImFont* pixel_smol = {};
 #include "Other/dobby_defines.h"
 #import "Other/H5hook.h"
 #include "Other/Paste.h"
+
+ImFont* verdana_smol;
+ImFont* pixel_big = nullptr;
+ImFont* pixel_smol = nullptr;
 
 #define Hook(x, y, z) \
 { \
@@ -92,43 +93,46 @@ ImFont* Urbanist;
     ImGui::CreateContext();
     ImGuiIO& io = ImGui::GetIO(); (void)io;
 
-   ImGui::StyleColorsClassic();
+    ImGui::StyleColorsClassic();
     auto& Style = ImGui::GetStyle();
     Style.WindowPadding = ImVec2(8.0f, 8.0f);
     Style.FramePadding = ImVec2(9.0f, 7.0f);
     Style.ScrollbarRounding = 9.0f;
-            ImVec4* colors = ImGui::GetStyle().Colors;
-    colors[ImGuiCol_Text]                   = ImVec4(1.00f, 1.00f, 1.00f, 1.00f);
-    colors[ImGuiCol_WindowBg]               = ImVec4(0.06f, 0.06f, 0.08f, 0.94f); // Nền tối xanh nhẹ
-    colors[ImGuiCol_TitleBgActive]          = ImVec4(0.00f, 0.47f, 0.81f, 1.00f); // Xanh dương đậm
     
-    // --- Các thành phần màu Xanh (Chủ đạo) ---
-    colors[ImGuiCol_CheckMark]              = ImVec4(0.00f, 0.90f, 1.00f, 1.00f); // Dấu tích xanh Cyan
-    colors[ImGuiCol_SliderGrab]             = ImVec4(0.00f, 0.70f, 1.00f, 1.00f); // Nút gạt slider
+    ImVec4* colors = ImGui::GetStyle().Colors;
+    colors[ImGuiCol_Text]                   = ImVec4(1.00f, 1.00f, 1.00f, 1.00f);
+    colors[ImGuiCol_WindowBg]               = ImVec4(0.06f, 0.06f, 0.08f, 0.94f); 
+    colors[ImGuiCol_TitleBgActive]          = ImVec4(0.00f, 0.47f, 0.81f, 1.00f); 
+    
+    // --- Theme (Blue Theme) ---
+    colors[ImGuiCol_CheckMark]              = ImVec4(0.00f, 0.90f, 1.00f, 1.00f); 
+    colors[ImGuiCol_SliderGrab]             = ImVec4(0.00f, 0.70f, 1.00f, 1.00f); 
     colors[ImGuiCol_SliderGrabActive]       = ImVec4(0.00f, 0.50f, 1.00f, 1.00f); 
     
-    colors[ImGuiCol_Button]                 = ImVec4(0.00f, 0.47f, 0.81f, 0.40f); // Nút bấm xanh dương
-    colors[ImGuiCol_ButtonHovered]          = ImVec4(0.00f, 0.58f, 1.00f, 1.00f); // Khi di chuột vào
-    colors[ImGuiCol_ButtonActive]           = ImVec4(0.00f, 0.40f, 0.80f, 1.00f);
+    colors[ImGuiCol_Button]                 = ImVec4(0.00f, 0.47f, 0.81f, 0.40f); 
+    colors[ImGuiCol_ButtonHovered]          = ImVec4(0.00f, 0.58f, 1.00f, 1.00f); 
+    colors[ImGuiCol_ButtonActive]           = ImVec4(0.00f, 0.40f, 0.80f, 1.00f); 
     
-    colors[ImGuiCol_Header]                 = ImVec4(0.00f, 0.47f, 0.81f, 0.31f); // Màu Tab/Header
+    colors[ImGuiCol_Header]                 = ImVec4(0.00f, 0.47f, 0.81f, 0.31f); 
     colors[ImGuiCol_HeaderHovered]          = ImVec4(0.00f, 0.58f, 1.00f, 0.80f);
     colors[ImGuiCol_HeaderActive]           = ImVec4(0.00f, 0.47f, 0.81f, 1.00f);
     
     colors[ImGuiCol_SeparatorHovered]       = ImVec4(0.10f, 0.40f, 0.75f, 0.78f);
     colors[ImGuiCol_SeparatorActive]        = ImVec4(0.10f, 0.40f, 0.75f, 1.00f);
     
-    colors[ImGuiCol_Tab]                    = ImVec4(0.00f, 0.40f, 0.70f, 0.86f); // Màu Tab
+    colors[ImGuiCol_Tab]                    = ImVec4(0.00f, 0.40f, 0.70f, 0.86f); 
     colors[ImGuiCol_TabHovered]             = ImVec4(0.00f, 0.58f, 1.00f, 0.80f);
     colors[ImGuiCol_TabActive]              = ImVec4(0.00f, 0.47f, 0.81f, 1.00f);
 
-        ImGui::GetStyle().WindowRounding = 8 / 1.5f;
-        ImGui::GetStyle().FrameRounding = 4 / 1.5f;
-        ImGui::GetStyle().ChildRounding = 6 / 1.5f;
+    ImGui::GetStyle().WindowRounding = 8 / 1.5f;
+    ImGui::GetStyle().FrameRounding = 4 / 1.5f;
+    ImGui::GetStyle().ChildRounding = 6 / 1.5f;
+
     ImFont* font = io.Fonts->AddFontFromMemoryTTF(sansbold, sizeof(sansbold), 15.0f, NULL, io.Fonts->GetGlyphRangesCyrillic());
-    verdana_smol = io.Fonts->AddFontFromMemoryTTF(verdana, sizeof verdana, 40, NULL, io.Fonts->GetGlyphRangesCyrillic());
-    pixel_big = io.Fonts->AddFontFromMemoryTTF((void*)smallestpixel, sizeof smallestpixel, 128, NULL, io.Fonts->GetGlyphRangesCyrillic());
-    pixel_smol = io.Fonts->AddFontFromMemoryTTF((void*)smallestpixel, sizeof smallestpixel, 10*2, NULL, io.Fonts->GetGlyphRangesCyrillic());
+    verdana_smol = io.Fonts->AddFontFromMemoryTTF(verdana, sizeof(verdana), 40, NULL, io.Fonts->GetGlyphRangesCyrillic());
+    pixel_big = io.Fonts->AddFontFromMemoryTTF((void*)smallestpixel, sizeof(smallestpixel), 128, NULL, io.Fonts->GetGlyphRangesCyrillic());
+    pixel_smol = io.Fonts->AddFontFromMemoryTTF((void*)smallestpixel, sizeof(smallestpixel), 20, NULL, io.Fonts->GetGlyphRangesCyrillic());
+    
     ImGui_ImplMetal_Init(_device);
 
     return self;
@@ -146,11 +150,8 @@ ImFont* Urbanist;
 
 - (void)loadView
 {
-
-
-    CGFloat w = [UIApplication sharedApplication].windows[0].rootViewController.view.frame.size.width;
-    CGFloat h = [UIApplication sharedApplication].windows[0].rootViewController.view.frame.size.height;
-    self.view = [[MTKView alloc] initWithFrame:CGRectMake(0, 0, w, h)];
+    CGRect bounds = [UIScreen mainScreen].bounds;
+    self.view = [[MTKView alloc] initWithFrame:bounds];
 }
 
 - (void)viewDidLoad {
@@ -162,11 +163,8 @@ ImFont* Urbanist;
     self.mtkView.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0];
     self.mtkView.clipsToBounds = YES;
 
-Hook(0x4EB3E88 , BLAGCMCGEJG1, old_BLAGCMCGEJG1);
-
+    Hook(0x4EB3E88 , BLAGCMCGEJG1, old_BLAGCMCGEJG1);
 }
-
-
 
 #pragma mark - Interaction
 
@@ -189,25 +187,10 @@ Hook(0x4EB3E88 , BLAGCMCGEJG1, old_BLAGCMCGEJG1);
     io.MouseDown[0] = hasActiveTouch;
 }
 
-- (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
-{
-    [self updateIOWithTouchEvent:event];
-}
-
-- (void)touchesMoved:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
-{
-    [self updateIOWithTouchEvent:event];
-}
-
-- (void)touchesCancelled:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
-{
-    [self updateIOWithTouchEvent:event];
-}
-
-- (void)touchesEnded:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
-{
-    [self updateIOWithTouchEvent:event];
-}
+- (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event { [self updateIOWithTouchEvent:event]; }
+- (void)touchesMoved:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event { [self updateIOWithTouchEvent:event]; }
+- (void)touchesCancelled:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event { [self updateIOWithTouchEvent:event]; }
+- (void)touchesEnded:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event { [self updateIOWithTouchEvent:event]; }
 
 #pragma mark - MTKViewDelegate
 
@@ -219,139 +202,140 @@ Hook(0x4EB3E88 , BLAGCMCGEJG1, old_BLAGCMCGEJG1);
 
     CGFloat framebufferScale = view.window.screen.nativeScale ?: UIScreen.mainScreen.nativeScale;
     io.DisplayFramebufferScale = ImVec2(framebufferScale, framebufferScale);
-    io.DeltaTime = 1 / float(view.preferredFramesPerSecond ?: 60);
+    io.DeltaTime = 1.0f / float(view.preferredFramesPerSecond ?: 60);
     
     id<MTLCommandBuffer> commandBuffer = [self.commandQueue commandBuffer];
         
-        if (MenDeal == true) 
-        {
-            [self.view setUserInteractionEnabled:YES];
+    [self.view setUserInteractionEnabled:MenDeal];
+
+    MTLRenderPassDescriptor* renderPassDescriptor = view.currentRenderPassDescriptor;
+    if (renderPassDescriptor != nil)
+    {
+        id <MTLRenderCommandEncoder> renderEncoder = [commandBuffer renderCommandEncoderWithDescriptor:renderPassDescriptor];
+        [renderEncoder pushDebugGroup:@"ImGui Main View"];
+
+        ImGui_ImplMetal_NewFrame(renderPassDescriptor);
+        ImGui::NewFrame();
+        
+        CGFloat x = (view.bounds.size.width - 365) / 2;
+        CGFloat y = (view.bounds.size.height - 270) / 2;
+        ImGui::SetNextWindowPos(ImVec2(x, y), ImGuiCond_FirstUseEver);
+        ImGui::SetNextWindowSize(ImVec2(365, 270), ImGuiCond_FirstUseEver);
+        
+        if (MenDeal)
+        {                
+            // මෙතනින් තමයි Menu එකේ නම වෙනස් කරලා තියෙන්නේ
+            ImGui::Begin(oxorany("Statistics King"), &MenDeal);
             
-        } 
-        else if (MenDeal == false) 
-        {
-           
-            [self.view setUserInteractionEnabled:NO];
-           
-
-        }
-
-        MTLRenderPassDescriptor* renderPassDescriptor = view.currentRenderPassDescriptor;
-        if (renderPassDescriptor != nil)
-        {
-            id <MTLRenderCommandEncoder> renderEncoder = [commandBuffer renderCommandEncoderWithDescriptor:renderPassDescriptor];
-            [renderEncoder pushDebugGroup:@"ImGui Jane"];
-
-            ImGui_ImplMetal_NewFrame(renderPassDescriptor);
-            ImGui::NewFrame();
-    CGFloat x = (([UIApplication sharedApplication].windows[0].rootViewController.view.frame.size.width) - 380) / 2;
-    CGFloat y = (([UIApplication sharedApplication].windows[0].rootViewController.view.frame.size.height) - 260) / 2;
-     ImGui::SetNextWindowPos(ImVec2(x, y), ImGuiCond_FirstUseEver);
-    ImGui::SetNextWindowSize(ImVec2(365, 270), ImGuiCond_FirstUseEver);
-            if (MenDeal == true)
-            {                
-                ImGui::Begin(oxorany("B R A Z I L I X"), &MenDeal);
-                if (ImGui::BeginTabBar(oxorany("Tab"),ImGuiTabBarFlags_FittingPolicyScroll)) {
-                    if (ImGui::BeginTabItem(("ESP"))) {
+            if (ImGui::BeginTabBar(oxorany("Tab"), ImGuiTabBarFlags_FittingPolicyScroll)) 
+            {
+                // === TAB 1: ESP ===
+                if (ImGui::BeginTabItem("ESP")) 
+                {
                     ImGui::Checkbox(oxorany("Enable Cheats"), &Vars.Enable);
-                        if (ImGui::BeginTable("split", 4))
+                    ImGui::Separator();
+
+                    if (ImGui::BeginTable("split", 4))
                     {
-                    ImGui::TableNextColumn();
-                    ImGui::Checkbox(oxorany("Line"), &Vars.lines);
-                    ImGui::TableNextColumn();
-                    ImGui::Checkbox(oxorany("Box"), &Vars.Box);
-                    ImGui::TableNextColumn();
-                    ImGui::Checkbox(oxorany("Health"), &Vars.Health);
-                    ImGui::TableNextColumn();
-                    ImGui::Checkbox(oxorany("Name"), &Vars.Name);
-                    ImGui::TableNextColumn();
-                    ImGui::Checkbox(oxorany("Skeleton"), &Vars.skeleton);
-                    ImGui::TableNextColumn();
-                    ImGui::Checkbox(oxorany("Distance"), &Vars.Distance);
-                    ImGui::TableNextColumn();
-                    ImGui::Checkbox(oxorany("3D Circle"), &Vars.circlepos);
-                    ImGui::TableNextColumn();
-                    ImGui::Checkbox(oxorany("Outline"), &Vars.Outline);
-                        }
+                        ImGui::TableNextColumn(); ImGui::Checkbox(oxorany("Line"), &Vars.lines);
+                        ImGui::TableNextColumn(); ImGui::Checkbox(oxorany("Box"), &Vars.Box);
+                        ImGui::TableNextColumn(); ImGui::Checkbox(oxorany("Health"), &Vars.Health);
+                        ImGui::TableNextColumn(); ImGui::Checkbox(oxorany("Name"), &Vars.Name);
+                        ImGui::TableNextColumn(); ImGui::Checkbox(oxorany("Skeleton"), &Vars.skeleton);
+                        ImGui::TableNextColumn(); ImGui::Checkbox(oxorany("Distance"), &Vars.Distance);
+                        ImGui::TableNextColumn(); ImGui::Checkbox(oxorany("3D Circle"), &Vars.circlepos);
+                        ImGui::TableNextColumn(); ImGui::Checkbox(oxorany("Outline"), &Vars.Outline);
                         ImGui::EndTable();
-                        ImGui::Checkbox(oxorany("Out of Screen"), &Vars.OOF);ImGui::SameLine();
-                        ImGui::Checkbox(oxorany("Enemy Count"), &Vars.enemycount);
-                        // Chèn vào đây để nút nằm ngay đầu menu
-        // --- Code Fix Login ---
-        if (ImGui::Button(oxorany("Fix Login"))) {
-            self.view.hidden = YES; 
-            MenDeal = false; 
-            
-            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(fixLoginTimeout * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                self.view.hidden = NO; 
-                MenDeal = true; 
-            });
-        }
-        ImGui::SameLine();
-        ImGui::SetNextItemWidth(100);
-        ImGui::SliderFloat(oxorany("##fixlogin"), &fixLoginTimeout, 40.0f, 80.0f, oxorany("Fix %.0f"));
-        ImGui::Separator();
-                        ImGui::EndTabItem();
                     }
-                    if (ImGui::BeginTabItem(("AimBot"))) {
-                            ImGui::Spacing();
-                            ImGui::Checkbox(oxorany("SilentAim"), &SilentAim);
-                            ImGui::Checkbox(oxorany("CheckIsVisible"), &CheckWall1);
-
-
-ImGui::Checkbox("Enable Aimbot", &Vars.Aimbot);
-ImGui::SameLine();
-ImGui::Checkbox("Visible", &Vars.VisibleCheck);
-ImGui::SameLine();
-ImGui::Checkbox("Knocked", &Vars.IgnoreKnocked); 
-
-ImGui::Combo("##1", &Vars.AimWhen, Vars.dir, 4);
-
-ImGui::Combo("##2", &Vars.AimHitbox, Vars.aimHitboxes, 3);
-
-ImGui::Combo("##3", &Vars.AimMode, Vars.aimModes, 3);
-
-if (Vars.AimMode == 2) {
-ImGui::SliderFloat(oxorany("##Fov"), &Vars.AimFov, 0.0f, 360.0f, oxorany("AimFov %.0f"));
-}
-
-
-                        ImGui::EndTabItem();
+                    
+                    ImGui::Spacing();
+                    ImGui::Checkbox(oxorany("Out of Screen"), &Vars.OOF); ImGui::SameLine();
+                    ImGui::Checkbox(oxorany("Enemy Count"), &Vars.enemycount);
+                    
+                    ImGui::Separator();
+                    
+                    // --- Fix Login Option ---
+                    if (ImGui::Button(oxorany("Fix Login"))) {
+                        self.view.hidden = YES; 
+                        MenDeal = false; 
+                        
+                        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(fixLoginTimeout * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                            self.view.hidden = NO; 
+                            MenDeal = true; 
+                        });
                     }
-                    if (ImGui::BeginTabItem(("Info Developer"))) {
-                        ImGui::TextDisabled("TELEGRAM");
-                        ImGui::TextDisabled("@THEBRAZILI");
-                        ImGui::TextDisabled("");
-                        ImGui::TextDisabled("");
-                        ImGui::TextDisabled(""); 
-                        ImGui::TextDisabled("");
-                        ImGui::EndTabItem();
-                    }
-                    ImGui::EndTabBar();
+                    ImGui::SameLine();
+                    ImGui::SetNextItemWidth(120);
+                    ImGui::SliderFloat(oxorany("##fixlogin"), &fixLoginTimeout, 40.0f, 80.0f, oxorany("Fix %.0f s"));
+
+                    ImGui::EndTabItem();
                 }
-        ImGui::End();
-    }
-            ImDrawList* draw_list = ImGui::GetBackgroundDrawList();
-            get_players();
-            draw_watermark();
-            aimbot();
-            game_sdk->init();
-            if (Vars.AimFov > 0) {
-                Vars.isAimFov = true;
-            } else {
-                Vars.isAimFov = false;
-            }
-            ImGui::Render();
-            ImDrawData* draw_data = ImGui::GetDrawData();
-            ImGui_ImplMetal_RenderDrawData(draw_data, commandBuffer, renderEncoder);
-          
-            [renderEncoder popDebugGroup];
-            [renderEncoder endEncoding];
+                
+                // === TAB 2: AIMBOT ===
+                if (ImGui::BeginTabItem("AimBot")) 
+                {
+                    ImGui::Spacing();
+                    ImGui::Checkbox(oxorany("SilentAim"), &SilentAim); ImGui::SameLine();
+                    ImGui::Checkbox(oxorany("CheckIsVisible"), &CheckWall1);
 
-            [commandBuffer presentDrawable:view.currentDrawable];
+                    ImGui::Separator();
+
+                    ImGui::Checkbox("Enable Aimbot", &Vars.Aimbot); ImGui::SameLine();
+                    ImGui::Checkbox("Visible", &Vars.VisibleCheck); ImGui::SameLine();
+                    ImGui::Checkbox("Knocked", &Vars.IgnoreKnocked); 
+
+                    ImGui::SetNextItemWidth(150);
+                    ImGui::Combo("Trigger", &Vars.AimWhen, Vars.dir, 4);
+
+                    ImGui::SetNextItemWidth(150);
+                    ImGui::Combo("Hitbox", &Vars.AimHitbox, Vars.aimHitboxes, 3);
+
+                    ImGui::SetNextItemWidth(150);
+                    ImGui::Combo("Mode", &Vars.AimMode, Vars.aimModes, 3);
+
+                    if (Vars.AimMode == 2) {
+                        ImGui::SliderFloat(oxorany("FOV Size"), &Vars.AimFov, 0.0f, 360.0f, oxorany("%.0f px"));
+                    }
+
+                    ImGui::EndTabItem();
+                }
+                
+                // === TAB 3: DEVELOPER INFO ===
+                if (ImGui::BeginTabItem("Info Developer")) 
+                {
+                    ImGui::TextColored(ImVec4(0.0f, 0.8f, 1.0f, 1.0f), "TELEGRAM COMMUNITY");
+                    ImGui::TextDisabled("Official Tag: @THEBRAZILI");
+                    ImGui::EndTabItem();
+                }
+                
+                ImGui::EndTabBar();
+            }
+            ImGui::End();
         }
 
-        [commandBuffer commit];
+        // --- Game Drawing & Logic Calls ---
+        ImDrawList* draw_list = ImGui::GetBackgroundDrawList();
+        get_players();
+        draw_watermark();
+        aimbot();
+        
+        if (game_sdk) {
+            game_sdk->init();
+        }
+
+        Vars.isAimFov = (Vars.AimFov > 0);
+
+        ImGui::Render();
+        ImDrawData* draw_data = ImGui::GetDrawData();
+        ImGui_ImplMetal_RenderDrawData(draw_data, commandBuffer, renderEncoder);
+      
+        [renderEncoder popDebugGroup];
+        [renderEncoder endEncoding];
+
+        [commandBuffer presentDrawable:view.currentDrawable];
+    }
+
+    [commandBuffer commit];
 }
 
 - (void)mtkView:(MTKView*)view drawableSizeWillChange:(CGSize)size
@@ -360,4 +344,3 @@ ImGui::SliderFloat(oxorany("##Fov"), &Vars.AimFov, 0.0f, 360.0f, oxorany("AimFov
 }
 
 @end
-
