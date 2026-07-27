@@ -1,6 +1,9 @@
 #pragma once
 
 #include <map>
+#include <vector>
+#include <string>
+#import <Foundation/Foundation.h>
 
 template <typename T>
 struct monoArray
@@ -50,7 +53,7 @@ struct monoList {
 };
 
 template<typename TKey, typename TValue>
-    struct Dictionary {
+struct Dictionary {
     struct Entry {
         int hashCode, next;
         TKey key;
@@ -71,7 +74,8 @@ template<typename TKey, typename TValue>
 
     std::map<TKey, TValue> toMap() {
         std::map<TKey, TValue> ret;
-        auto lst = entries->template toCPPlist();
+        // 🔴 මෙතනින් 'template' කියන වචනය ඉවත් කළා
+        auto lst = entries->toCPPlist();
         for (auto enter : lst)
             ret.insert(std::make_pair(enter.key, enter.value));
         return std::move(ret);
@@ -79,7 +83,8 @@ template<typename TKey, typename TValue>
 
     std::vector<TKey> getKeys() {
         std::vector<TKey> ret;
-        auto lst = entries->template toCPPlist();
+        // 🔴 මෙතනින් 'template' කියන වචනය ඉවත් කළා
+        auto lst = entries->toCPPlist();
         for (auto enter : lst)
             ret.push_back(enter.key);
         return std::move(ret);
@@ -87,7 +92,8 @@ template<typename TKey, typename TValue>
 
     std::vector<TValue> getValues() {
         std::vector<TValue> ret;
-        auto lst = entries->template toCPPlist();
+        // 🔴 මෙතනින් 'template' කියන වචනය ඉවත් කළා
+        auto lst = entries->toCPPlist();
         for (auto enter : lst)
             ret.push_back(enter.value);
         return std::move(ret);
@@ -155,4 +161,4 @@ typedef struct _monoString
     {
       return std::string(toCString());
     }
-}monoString;
+} monoString;
