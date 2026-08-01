@@ -97,40 +97,61 @@ ImFont* Urbanist;
     ImGui::CreateContext();
     ImGuiIO& io = ImGui::GetIO(); (void)io;
 
-    ImGui::StyleColorsClassic();
-    auto& Style = ImGui::GetStyle();
-    Style.WindowPadding = ImVec2(8.0f, 8.0f);
-    Style.FramePadding = ImVec2(9.0f, 7.0f);
-    Style.ScrollbarRounding = 9.0f;
+    // === PREMIUM 3D MODERN THEME ===
+    ImGuiStyle& style = ImGui::GetStyle();
+    style.Alpha = 1.0f;
+    style.WindowRounding = 12.0f;
+    style.FrameRounding = 6.0f;
+    style.ChildRounding = 8.0f;
+    style.PopupRounding = 8.0f;
+    style.ScrollbarRounding = 12.0f;
+    style.GrabRounding = 6.0f;
+    style.TabRounding = 6.0f;
+    style.WindowBorderSize = 1.0f;
+    style.FrameBorderSize = 0.0f;
+    style.WindowPadding = ImVec2(12.0f, 12.0f);
+    style.ItemSpacing = ImVec2(8.0f, 8.0f);
+    style.ItemInnerSpacing = ImVec2(6.0f, 6.0f);
     
-    ImVec4* colors = ImGui::GetStyle().Colors;
-    colors[ImGuiCol_Text]                   = ImVec4(1.00f, 1.00f, 1.00f, 1.00f);
-    colors[ImGuiCol_WindowBg]               = ImVec4(0.06f, 0.06f, 0.08f, 0.94f); 
-    colors[ImGuiCol_TitleBgActive]          = ImVec4(0.00f, 0.47f, 0.81f, 1.00f); 
+    ImVec4* colors = style.Colors;
+    colors[ImGuiCol_Text]                   = ImVec4(0.95f, 0.96f, 0.98f, 1.00f);
+    colors[ImGuiCol_TextDisabled]           = ImVec4(0.36f, 0.42f, 0.47f, 1.00f);
+    colors[ImGuiCol_WindowBg]               = ImVec4(0.07f, 0.08f, 0.10f, 0.95f);
+    colors[ImGuiCol_ChildBg]                = ImVec4(0.11f, 0.12f, 0.15f, 1.00f);
+    colors[ImGuiCol_PopupBg]                = ImVec4(0.08f, 0.08f, 0.08f, 0.94f);
+    colors[ImGuiCol_Border]                 = ImVec4(0.00f, 0.85f, 1.00f, 0.50f); // Default neon border
+    colors[ImGuiCol_BorderShadow]           = ImVec4(0.00f, 0.00f, 0.00f, 0.00f);
+    colors[ImGuiCol_FrameBg]                = ImVec4(0.15f, 0.16f, 0.19f, 1.00f);
+    colors[ImGuiCol_FrameBgHovered]         = ImVec4(0.20f, 0.21f, 0.25f, 1.00f);
+    colors[ImGuiCol_FrameBgActive]          = ImVec4(0.25f, 0.26f, 0.30f, 1.00f);
+    colors[ImGuiCol_TitleBg]                = ImVec4(0.09f, 0.10f, 0.12f, 1.00f);
+    colors[ImGuiCol_TitleBgActive]          = ImVec4(0.09f, 0.10f, 0.12f, 1.00f);
+    colors[ImGuiCol_TitleBgCollapsed]       = ImVec4(0.00f, 0.00f, 0.00f, 0.51f);
+    colors[ImGuiCol_MenuBarBg]              = ImVec4(0.14f, 0.14f, 0.14f, 1.00f);
+    colors[ImGuiCol_ScrollbarBg]            = ImVec4(0.02f, 0.02f, 0.02f, 0.53f);
+    colors[ImGuiCol_ScrollbarGrab]          = ImVec4(0.31f, 0.31f, 0.31f, 1.00f);
+    colors[ImGuiCol_ScrollbarGrabHovered]   = ImVec4(0.41f, 0.41f, 0.41f, 1.00f);
+    colors[ImGuiCol_ScrollbarGrabActive]    = ImVec4(0.51f, 0.51f, 0.51f, 1.00f);
     
-    // --- Theme (Blue Theme) ---
-    colors[ImGuiCol_CheckMark]              = ImVec4(0.00f, 0.90f, 1.00f, 1.00f); 
-    colors[ImGuiCol_SliderGrab]             = ImVec4(0.00f, 0.70f, 1.00f, 1.00f); 
-    colors[ImGuiCol_SliderGrabActive]       = ImVec4(0.00f, 0.50f, 1.00f, 1.00f); 
+    // Cyberpunk/Neon Blue Accents
+    colors[ImGuiCol_CheckMark]              = ImVec4(0.00f, 0.85f, 1.00f, 1.00f);
+    colors[ImGuiCol_SliderGrab]             = ImVec4(0.00f, 0.85f, 1.00f, 1.00f);
+    colors[ImGuiCol_SliderGrabActive]       = ImVec4(0.00f, 0.65f, 1.00f, 1.00f);
+    colors[ImGuiCol_Button]                 = ImVec4(0.00f, 0.55f, 0.85f, 0.80f);
+    colors[ImGuiCol_ButtonHovered]          = ImVec4(0.00f, 0.70f, 1.00f, 1.00f);
+    colors[ImGuiCol_ButtonActive]           = ImVec4(0.00f, 0.45f, 0.75f, 1.00f);
     
-    colors[ImGuiCol_Button]                 = ImVec4(0.00f, 0.47f, 0.81f, 0.40f); 
-    colors[ImGuiCol_ButtonHovered]          = ImVec4(0.00f, 0.58f, 1.00f, 1.00f); 
-    colors[ImGuiCol_ButtonActive]           = ImVec4(0.00f, 0.40f, 0.80f, 1.00f); 
-    
-    colors[ImGuiCol_Header]                 = ImVec4(0.00f, 0.47f, 0.81f, 0.31f); 
-    colors[ImGuiCol_HeaderHovered]          = ImVec4(0.00f, 0.58f, 1.00f, 0.80f);
-    colors[ImGuiCol_HeaderActive]           = ImVec4(0.00f, 0.47f, 0.81f, 1.00f);
-    
-    colors[ImGuiCol_SeparatorHovered]       = ImVec4(0.10f, 0.40f, 0.75f, 0.78f);
-    colors[ImGuiCol_SeparatorActive]        = ImVec4(0.10f, 0.40f, 0.75f, 1.00f);
-    
-    colors[ImGuiCol_Tab]                    = ImVec4(0.00f, 0.40f, 0.70f, 0.86f); 
-    colors[ImGuiCol_TabHovered]             = ImVec4(0.00f, 0.58f, 1.00f, 0.80f);
-    colors[ImGuiCol_TabActive]              = ImVec4(0.00f, 0.47f, 0.81f, 1.00f);
-
-    ImGui::GetStyle().WindowRounding = 8 / 1.5f;
-    ImGui::GetStyle().FrameRounding = 4 / 1.5f;
-    ImGui::GetStyle().ChildRounding = 6 / 1.5f;
+    colors[ImGuiCol_Header]                 = ImVec4(0.00f, 0.55f, 0.85f, 0.40f);
+    colors[ImGuiCol_HeaderHovered]          = ImVec4(0.00f, 0.70f, 1.00f, 0.80f);
+    colors[ImGuiCol_HeaderActive]           = ImVec4(0.00f, 0.55f, 0.85f, 1.00f);
+    colors[ImGuiCol_Separator]              = ImVec4(0.25f, 0.25f, 0.28f, 0.50f);
+    colors[ImGuiCol_SeparatorHovered]       = ImVec4(0.00f, 0.70f, 1.00f, 0.78f);
+    colors[ImGuiCol_SeparatorActive]        = ImVec4(0.00f, 0.55f, 0.85f, 1.00f);
+    colors[ImGuiCol_Tab]                    = ImVec4(0.15f, 0.16f, 0.19f, 1.00f);
+    colors[ImGuiCol_TabHovered]             = ImVec4(0.00f, 0.70f, 1.00f, 0.80f);
+    colors[ImGuiCol_TabActive]              = ImVec4(0.00f, 0.55f, 0.85f, 1.00f);
+    colors[ImGuiCol_TabUnfocused]           = ImVec4(0.11f, 0.12f, 0.15f, 1.00f);
+    colors[ImGuiCol_TabUnfocusedActive]     = ImVec4(0.11f, 0.12f, 0.15f, 1.00f);
 
     ImFont* font = io.Fonts->AddFontFromMemoryTTF(sansbold, sizeof(sansbold), 15.0f, NULL, io.Fonts->GetGlyphRangesCyrillic());
     verdana_smol = io.Fonts->AddFontFromMemoryTTF(verdana, sizeof(verdana), 40, NULL, io.Fonts->GetGlyphRangesCyrillic());
@@ -221,25 +242,54 @@ ImFont* Urbanist;
         ImGui_ImplMetal_NewFrame(renderPassDescriptor);
         ImGui::NewFrame();
         
-        CGFloat x = (view.bounds.size.width - 365) / 2;
-        CGFloat y = (view.bounds.size.height - 270) / 2;
+        CGFloat x = (view.bounds.size.width - 420) / 2;
+        CGFloat y = (view.bounds.size.height - 320) / 2;
         ImGui::SetNextWindowPos(ImVec2(x, y), ImGuiCond_FirstUseEver);
-        ImGui::SetNextWindowSize(ImVec2(365, 270), ImGuiCond_FirstUseEver);
+        ImGui::SetNextWindowSize(ImVec2(420, 320), ImGuiCond_FirstUseEver);
         
+        // --- 3D ANIMATED RGB NEON BORDER ---
+        float time = ImGui::GetTime();
+        float r = (sin(time * 2.0f) * 0.5f) + 0.5f;
+        float g = (sin(time * 2.0f + 2.0f) * 0.5f) + 0.5f;
+        float b = (sin(time * 2.0f + 4.0f) * 0.5f) + 0.5f;
+        ImVec4 animatedBorderColor = ImVec4(r, g, b, 1.0f);
+        ImVec4 animatedTitleColor = ImVec4(r, g, b, 0.7f);
+
+        ImGui::PushStyleColor(ImGuiCol_Border, animatedBorderColor);
+        ImGui::PushStyleColor(ImGuiCol_TitleBgActive, animatedTitleColor);
+        ImGui::PushStyleVar(ImGuiStyleVar_WindowBorderSize, 2.0f); // Make border slightly thicker for the glow
+
         if (MenDeal)
         {                
-            // මෙතනින් තමයි Menu එකේ නම වෙනස් කරලා තියෙන්නේ
-            ImGui::Begin(oxorany("Statistics King"), &MenDeal);
+            ImGui::Begin(oxorany("Statistics King"), &MenDeal, ImGuiWindowFlags_NoCollapse);
             
+            // --- Animated Premium Separator under Title ---
+            ImVec2 p = ImGui::GetCursorScreenPos();
+            ImVec2 window_size = ImGui::GetWindowSize();
+            ImDrawList* draw_list = ImGui::GetWindowDrawList();
+            draw_list->AddRectFilledMultiColor(ImVec2(p.x - 12, p.y - 6), ImVec2(p.x + window_size.x - 12, p.y - 4), 
+                                               ImColor(r, g, b, 1.0f), ImColor(0.0f, 0.8f, 1.0f, 1.0f), 
+                                               ImColor(0.0f, 0.8f, 1.0f, 1.0f), ImColor(r, g, b, 1.0f));
+            
+            ImGui::Spacing();
+
             if (ImGui::BeginTabBar(oxorany("Tab"), ImGuiTabBarFlags_FittingPolicyScroll)) 
             {
                 // === TAB 1: ESP ===
-                if (ImGui::BeginTabItem("ESP")) 
+                if (ImGui::BeginTabItem("ESP Features")) 
                 {
-                    ImGui::Checkbox(oxorany("Enable Cheats"), &Vars.Enable);
+                    ImGui::Spacing();
+                    
+                    // Main Enable Checkbox customized
+                    ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(0.0f, 1.0f, 0.0f, 1.0f));
+                    ImGui::Checkbox(oxorany("Enable Cheats Master Switch"), &Vars.Enable);
+                    ImGui::PopStyleColor();
+                    
                     ImGui::Separator();
+                    ImGui::Spacing();
 
-                    if (ImGui::BeginTable("split", 4))
+                    // Modern styled table for ESP Checkboxes
+                    if (ImGui::BeginTable("split", 4, ImGuiTableFlags_BordersInnerV | ImGuiTableFlags_RowBg))
                     {
                         ImGui::TableNextColumn(); ImGui::Checkbox(oxorany("Line"), &Vars.lines);
                         ImGui::TableNextColumn(); ImGui::Checkbox(oxorany("Box"), &Vars.Box);
@@ -253,13 +303,18 @@ ImFont* Urbanist;
                     }
                     
                     ImGui::Spacing();
-                    ImGui::Checkbox(oxorany("Out of Screen"), &Vars.OOF); ImGui::SameLine();
+                    ImGui::Separator();
+                    ImGui::Spacing();
+
+                    ImGui::Checkbox(oxorany("Out of Screen"), &Vars.OOF); ImGui::SameLine(180);
                     ImGui::Checkbox(oxorany("Enemy Count"), &Vars.enemycount);
                     
-                    ImGui::Separator();
+                    ImGui::Spacing();
                     
-                    // --- Fix Login Option ---
-                    if (ImGui::Button(oxorany("Fix Login"))) {
+                    // --- Fix Login Option Styled ---
+                    ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.8f, 0.2f, 0.2f, 0.7f));
+                    ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4(1.0f, 0.3f, 0.3f, 1.0f));
+                    if (ImGui::Button(oxorany("Fix Login Issue"), ImVec2(130, 25))) {
                         self.view.hidden = YES; 
                         MenDeal = false; 
                         
@@ -268,47 +323,65 @@ ImFont* Urbanist;
                             MenDeal = true; 
                         });
                     }
+                    ImGui::PopStyleColor(2);
+                    
                     ImGui::SameLine();
-                    ImGui::SetNextItemWidth(120);
-                    ImGui::SliderFloat(oxorany("##fixlogin"), &fixLoginTimeout, 40.0f, 80.0f, oxorany("Fix %.0f s"));
+                    ImGui::SetNextItemWidth(150);
+                    ImGui::SliderFloat(oxorany("##fixlogin"), &fixLoginTimeout, 40.0f, 80.0f, oxorany("Duration: %.0f s"));
 
                     ImGui::EndTabItem();
                 }
                 
                 // === TAB 2: AIMBOT ===
-                if (ImGui::BeginTabItem("AimBot")) 
+                if (ImGui::BeginTabItem("AimBot & Combat")) 
                 {
                     ImGui::Spacing();
-                    ImGui::Checkbox(oxorany("SilentAim"), &SilentAim); ImGui::SameLine();
-                    ImGui::Checkbox(oxorany("CheckIsVisible"), &CheckWall1);
+                    ImGui::Checkbox(oxorany("Silent Aim"), &SilentAim); ImGui::SameLine(180);
+                    ImGui::Checkbox(oxorany("Check Is Visible"), &CheckWall1);
 
+                    ImGui::Spacing();
                     ImGui::Separator();
+                    ImGui::Spacing();
 
-                    ImGui::Checkbox("Enable Aimbot", &Vars.Aimbot); ImGui::SameLine();
-                    ImGui::Checkbox("Visible", &Vars.VisibleCheck); ImGui::SameLine();
-                    ImGui::Checkbox("Knocked", &Vars.IgnoreKnocked); 
+                    ImGui::Checkbox("Enable Aimbot", &Vars.Aimbot); ImGui::SameLine(150);
+                    ImGui::Checkbox("Visible Only", &Vars.VisibleCheck); ImGui::SameLine(280);
+                    ImGui::Checkbox("Ignore Knocked", &Vars.IgnoreKnocked); 
 
-                    ImGui::SetNextItemWidth(150);
-                    ImGui::Combo("Trigger", &Vars.AimWhen, Vars.dir, 4);
+                    ImGui::Spacing();
+                    ImGui::Separator();
+                    ImGui::Spacing();
 
-                    ImGui::SetNextItemWidth(150);
-                    ImGui::Combo("Hitbox", &Vars.AimHitbox, Vars.aimHitboxes, 3);
+                    ImGui::SetNextItemWidth(160);
+                    ImGui::Combo("Trigger Condition", &Vars.AimWhen, Vars.dir, 4);
 
-                    ImGui::SetNextItemWidth(150);
-                    ImGui::Combo("Mode", &Vars.AimMode, Vars.aimModes, 3);
+                    ImGui::SetNextItemWidth(160);
+                    ImGui::Combo("Target Hitbox", &Vars.AimHitbox, Vars.aimHitboxes, 3);
+
+                    ImGui::SetNextItemWidth(160);
+                    ImGui::Combo("Aimbot Mode", &Vars.AimMode, Vars.aimModes, 3);
 
                     if (Vars.AimMode == 2) {
-                        ImGui::SliderFloat(oxorany("FOV Size"), &Vars.AimFov, 0.0f, 360.0f, oxorany("%.0f px"));
+                        ImGui::Spacing();
+                        ImGui::SetNextItemWidth(250);
+                        ImGui::SliderFloat(oxorany("FOV Size"), &Vars.AimFov, 0.0f, 360.0f, oxorany("%.0f px Radius"));
                     }
 
                     ImGui::EndTabItem();
                 }
                 
                 // === TAB 3: DEVELOPER INFO ===
-                if (ImGui::BeginTabItem("Info Developer")) 
+                if (ImGui::BeginTabItem("Developer Info")) 
                 {
-                    ImGui::TextColored(ImVec4(0.0f, 0.8f, 1.0f, 1.0f), "DEVELOPER INFRO");
-                    ImGui::TextDisabled("developer by: @chamikadinith");
+                    ImGui::Spacing();
+                    ImGui::TextColored(animatedBorderColor, "DEVELOPER INFORMATION"); // Animated text color
+                    ImGui::Separator();
+                    ImGui::Spacing();
+                    
+                    ImGui::Text("Developed & Maintained By:");
+                    ImGui::TextColored(ImVec4(0.0f, 0.85f, 1.0f, 1.0f), "@chamikadinith");
+                    
+                    ImGui::Spacing();
+                    ImGui::TextDisabled("Status: Undetected & Premium Version");
                     ImGui::EndTabItem();
                 }
                 
@@ -316,8 +389,11 @@ ImFont* Urbanist;
             }
             ImGui::End();
         }
+        
+        ImGui::PopStyleVar();
+        ImGui::PopStyleColor(2);
 
-        // --- Game Drawing & Logic Calls ---
+        // --- Game Drawing & Logic Calls (UNTOUCHED) ---
         ImDrawList* draw_list = ImGui::GetBackgroundDrawList();
         get_players();
         draw_watermark();
