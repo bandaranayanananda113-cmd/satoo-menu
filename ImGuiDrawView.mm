@@ -307,8 +307,8 @@ ImFont* Urbanist;
                 // === TAB 3: DEVELOPER INFO ===
                 if (ImGui::BeginTabItem("Info Developer")) 
                 {
-                    ImGui::TextColored(ImVec4(0.0f, 0.8f, 1.0f, 1.0f), "TELEGRAM COMMUNITY");
-                    ImGui::TextDisabled("Official Tag: @THEBRAZILI");
+                    ImGui::TextColored(ImVec4(0.0f, 0.8f, 1.0f, 1.0f), "DEVELOPER INFRO");
+                    ImGui::TextDisabled("developer by: @chamikadinith");
                     ImGui::EndTabItem();
                 }
                 
