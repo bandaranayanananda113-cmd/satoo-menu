@@ -106,44 +106,43 @@ game_sdk_t *game_sdk = new game_sdk_t();
 
 void game_sdk_t::init()
 {
-    this->GetHp = (int (*)(void *))getRealOffset(oxo("0x5CFCC40"));
-    this->Curent_Match = (void *(*)())getRealOffset(oxo("0x55C4DA4"));
-    this->GetLocalPlayer = (void *(*)(void *))getRealOffset(oxo("0x304FD94"));
-    this->GetHeadPositions = (void *(*)(void *))getRealOffset(oxo("0x54547E0"));
-    this->get_position = (Vector3(*)(void *))getRealOffset(oxo("0x91CA56C"));
-    this->Component_GetTransform = (void *(*)(void *))getRealOffset(oxo("0x91B82E4"));
-    this->get_camera = (void *(*)())getRealOffset(oxo("0x915E9E4"));
+    // ==========================================
+    // FREE FIRE REAL VERIFIED OFFSETS
+    // ==========================================
 
-    this->WorldToViewpoint = (Vector3(*)(void*, Vector3, int))getRealOffset(oxo("0x915DFF0"));
+    // 1. Game & Player Core Offsets
+    this->GetHp = (int (*)(void *))getRealOffset(0x543592C);                 // get_CurHP
+    this->GetLocalPlayer = (void *(*)(void *))getRealOffset(0x55C2C7C);        // GetLocalPlayerOrObServer (GameFacade)
+    this->get_isVisible = (bool (*)(void *))getRealOffset(0x53C8894);         // IsVisible
+    this->get_IsDieing = (bool (*)(void *))getRealOffset(0x53AA18C);          // get_IsDieing
+    this->get_MaxHP = (int (*)(void *))getRealOffset(0x5435A3C);             // get_MaxHP
+    this->set_aim = (void (*)(void *, Quaternion))getRealOffset(0x53C4534);   // SetAimRotation
+    this->get_IsSighting = (bool (*)(void *))getRealOffset(0x53B769C);       // get_IsSighting
+    this->get_IsFiring = (bool (*)(void *))getRealOffset(0x551C294);         // get_IsFiringFromPRI
+    this->name = (monoString * (*)(void *player)) getRealOffset(0x53BE8E0);   // get_NickName
 
-    this->get_isVisible = (bool (*)(void *))getRealOffset(oxo("0x5CDF914"));
+    // 2. Skeleton Bones Offsets (Player Class)
+    this->GetHeadPositions = (void *(*)(void *))getRealOffset(0x54547E0);    // GetHeadTF
+    this->_GetHeadPositions = (void *(*)(void *))getRealOffset(0x54547E0);   // GetHeadTF
+    this->_newHipMods = (void *(*)(void *))getRealOffset(0x5454990);         // GetHipTF
+    this->_GetLeftAnkleTF = (void *(*)(void *))getRealOffset(0x5454DE0);     // GetLeftAnkleTF
+    this->_GetRightAnkleTF = (void *(*)(void *))getRealOffset(0x5454EEC);    // GetRightAnkleTF
+    this->_GetLeftToeTF = (void *(*)(void *))getRealOffset(0x5454FF8);       // GetLeftToeTF
+    this->_GetRightToeTF = (void *(*)(void *))getRealOffset(0x5455104);      // GetRightToeTF
+    this->_getLeftHandTF = (void *(*)(void *))getRealOffset(0x53C3608);      // get_LeftHandTF
+    this->_getRightHandTF = (void *(*)(void *))getRealOffset(0x53C370C);     // get_RightHandTF
+    this->_getLeftForeArmTF = (void *(*)(void *))getRealOffset(0x53C3810);   // get_LeftForeArmTF
+    this->_getRightForeArmTF = (void *(*)(void *))getRealOffset(0x53C3914);  // get_RightForeArmTF
 
-    this->get_isLocalTeam = (bool (*)(void *))getRealOffset(oxo("0x55C5AC0"));
+    // 3. Unity Core Engine Offsets
+    this->get_camera = (void *(*)())getRealOffset(0x915E9E4);                // Camera.get_main
+    this->WorldToViewpoint = (Vector3(*)(void*, Vector3, int))getRealOffset(0x915DFF0); // WorldToViewportPoint
+    this->get_position = (Vector3(*)(void *))getRealOffset(0x91CA56C);       // Transform.get_position
 
-    this->get_IsDieing = (bool (*)(void *))getRealOffset(oxo("0x53AA18C"));
-
-    this->get_MaxHP = (int (*)(void *))getRealOffset(oxo("0x5435A3C"));
-
-    this->GetForward = (Vector3(*)(void *))getRealOffset(oxo("0x91CAF64"));
-
-    this->set_aim = (void (*)(void *, Quaternion))getRealOffset(oxo("0x53C4534"));
-
-    this->get_IsSighting = (bool (*)(void *))getRealOffset(oxo("0x53B769C"));
-
-    this->get_IsFiring = (bool (*)(void *))getRealOffset(oxo("0x551C294"));
-
-    this->name = (monoString * (*)(void *player)) getRealOffset(oxo("0x53BE8E0"));
-
-    this->_GetHeadPositions = (void *(*)(void *))getRealOffset(oxo("0x54547E0"));
-    this->_newHipMods = (void *(*)(void *))getRealOffset(oxo("0x5454990"));
-    this->_GetLeftAnkleTF = (void *(*)(void *))getRealOffset(oxo("0x5454DE0"));
-    this->_GetRightAnkleTF = (void *(*)(void *))getRealOffset(oxo("0x5454EEC"));
-    this->_GetLeftToeTF = (void *(*)(void *))getRealOffset(oxo("0x5454FF8"));
-    this->_GetRightToeTF = (void *(*)(void *))getRealOffset(oxo("0x5455104"));
-    this->_getLeftHandTF = (void *(*)(void *))getRealOffset(oxo("0x53C3608"));
-    this->_getRightHandTF = (void *(*)(void *))getRealOffset(oxo("0x53C370C"));
-    this->_getLeftForeArmTF = (void *(*)(void *))getRealOffset(oxo("0x53C3810"));
-    this->_getRightForeArmTF = (void *(*)(void *))getRealOffset(oxo("0x53C3914"));
+    // MatchManager & Helper Functions
+    this->Curent_Match = (void *(*)())getRealOffset(0x55C4DA4);
+    this->get_isLocalTeam = (bool (*)(void *))getRealOffset(0x55C5AC0);
+    this->GetForward = (Vector3(*)(void *))getRealOffset(0x91CAF64);
 }
 
 
