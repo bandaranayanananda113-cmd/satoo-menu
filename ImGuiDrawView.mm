@@ -30,7 +30,7 @@
 #import "IMGUI/imgui_impl_metal.h"
 #import "IMGUI/zzz.h"
 
-// 🔴 මෙතන තමයි Fonts ටික මුලින්ම Declare කරන්නේ (Hooks.h එකට උඩින්)
+
 ImFont* verdana_smol = nullptr;
 ImFont* pixel_big = nullptr;
 ImFont* pixel_smol = nullptr;
@@ -45,7 +45,7 @@ ImFont* pixel_smol = nullptr;
 #include "Helper/data.h"
 #include "Helper/Obfuscate.h"
 
-// 🔴 දැන් Hooks.h එකට fonts ටික අඳුරගන්න පුළුවන්
+
 #import "Helper/Hooks.h"
 
 #include <OpenGLES/ES2/gl.h>
