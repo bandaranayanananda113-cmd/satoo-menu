@@ -169,7 +169,7 @@ ImFont* Urbanist;
     self.mtkView.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0];
     self.mtkView.clipsToBounds = YES;
 
-    Hook(0x4EB3E88 , BLAGCMCGEJG1, old_BLAGCMCGEJG1);
+    Hook(0x58B3258 , BLAGCMCGEJG1, old_BLAGCMCGEJG1);
 }
 
 #pragma mark - Interaction
