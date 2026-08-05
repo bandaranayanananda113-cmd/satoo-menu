@@ -439,6 +439,14 @@ void* EnemyVisible(void* match) {
     return closestEnemy;
 }
 
+void *get_HeadCollider(void *pthis) {
+    return ((void* (*)(void *))getRealOffset(0x53C2630))(pthis);
+}
+
+static float get_Range(void* pthis) {
+    return ((float(*)(void*))getRealOffset(0x5884080))(pthis);
+}
+
 bool isEnemyInRangeWeapon(void* player, void* enemy, void* weapon) {
     if (!player || !enemy || !weapon) return false;
     
@@ -460,7 +468,7 @@ static bool Bullet_Visible_Check(Vector3 from, Vector3 to) {
 
 int (*old_BLAGCMCGEJG1)(void*, HitObjectInfo*) = nullptr;
 int BLAGCMCGEJG1(void* ist, HitObjectInfo* HitObject) {
-    if (SilentAim1 && HitObject) {
+    if (SilentAim && HitObject) {
         void* current_match = game_sdk->Curent_Match();
         if (current_match) {
             void* local_player = game_sdk->GetLocalPlayer(current_match);
